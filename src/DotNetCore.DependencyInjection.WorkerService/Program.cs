@@ -1,5 +1,6 @@
 namespace DotNetCore.DependencyInjection.WorkerService
 {
+    using System;
     using DotNetCore.DependencyInjection.Services;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -12,7 +13,8 @@ namespace DotNetCore.DependencyInjection.WorkerService
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHttpClient<WorldWeatherService>();
+                    services.Configure<WeatherConfiguration>(hostContext.Configuration.GetSection("weatherConfiguration"));
+                    services.AddHttpClient<WorldWeatherService>(client => client.BaseAddress = new Uri(hostContext.Configuration.GetSection("weatherConfiguration:ApiUrl").Value));
                     services.AddHostedService<Worker>();
                 });
     }
