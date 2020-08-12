@@ -1,6 +1,7 @@
 namespace DotNetCore.DependencyInjection.Api
 {
     using System;
+    using DotNetCore.DependencyInjection.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -21,6 +22,9 @@ namespace DotNetCore.DependencyInjection.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<WeatherConfiguration>(Configuration.GetSection("weatherConfiguration"));
+            services.AddHttpClient("weatherClient", client => client.BaseAddress = new Uri(Configuration.GetSection("weatherConfiguration:ApiUrl").Value));
+            services.AddSingleton<SingletonWeatherService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
