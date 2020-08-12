@@ -19,7 +19,6 @@ namespace DotNetCore.DependencyInjection.Services
             this.httpClient = httpClient;
             this.configuration = configuration.CurrentValue;
             this.logger = logger;
-            this.cityName = "dubai";
         }
 
         public async Task<WeatherResponse> GetWeatherData()
