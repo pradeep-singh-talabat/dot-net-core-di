@@ -3,17 +3,17 @@ namespace DotNetCore.DependencyInjection.Services
     using System;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Newtonsoft.Json;
 
-    public class WorldWeatherService
+    public class SingletonWeatherService 
     {
         private readonly HttpClient httpClient;
         private readonly WeatherConfiguration configuration;
         private readonly ILogger<WorldWeatherService> logger;
-        public WorldWeatherService(IHttpClientFactory httpClientFactory, IOptionsMonitor<WeatherConfiguration> configuration, ILogger<WorldWeatherService> logger)
+
+        public SingletonWeatherService(IHttpClientFactory httpClientFactory, IOptionsMonitor<WeatherConfiguration> configuration, ILogger<WorldWeatherService> logger)
         {
             this.httpClient = httpClientFactory.CreateClient("weatherClient");
             this.configuration = configuration.CurrentValue;
@@ -35,7 +35,7 @@ namespace DotNetCore.DependencyInjection.Services
                 this.logger.LogError($"HttpError: [Status: {result.StatusCode} - {response}]");
                 throw new HttpRequestException($"failed to get data: [Status: {result.StatusCode} - {response}]");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.logger.LogError(ex, "Something went wrong, check the exception");
                 throw;

@@ -14,7 +14,9 @@ namespace DotNetCore.DependencyInjection.WorkerService
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.Configure<WeatherConfiguration>(hostContext.Configuration.GetSection("weatherConfiguration"));
-                    services.AddHttpClient<WorldWeatherService>(client => client.BaseAddress = new Uri(hostContext.Configuration.GetSection("weatherConfiguration:ApiUrl").Value));
+                    services.AddHttpClient("weatherClient", client => client.BaseAddress = new Uri(hostContext.Configuration.GetSection("weatherConfiguration:ApiUrl").Value));
+                    services.AddTransient<WorldWeatherService>();
+                    services.AddSingleton<SingletonWeatherService>();
                     services.AddHostedService<Worker>();
                 });
     }
