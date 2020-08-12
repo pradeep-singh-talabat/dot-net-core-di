@@ -4,3 +4,7 @@ Here we will learn about the dependency injection concepts in .NET Core and how 
 * Scopes
 * Configuration
 * Options
+
+# Branch: 1-worker-service
+
+Implemented a simple worker service
